@@ -21,7 +21,7 @@ const obtenerIconoCategoria = (nombre = "") => {
 
   if (n.includes("ropa") || n.includes("vestiment") || n.includes("moda"))
     return "bi-handbag";
-  if (n.includes("zapato") || n.includes("calzado")) return "bi-boot";
+  if (n.includes("zapato") || n.includes("calzado")) return "bi-tag";
   if (
     n.includes("electron") ||
     n.includes("tecnolog") ||
@@ -383,7 +383,7 @@ const InicioComprador = () => {
               </Col>
             ) : (
               productosDestacados.map((prod) => (
-                <Col key={prod.id_producto} sm={6} lg={3}>
+                <Col key={prod.id_producto}  sm={6} lg={3}>
                   <div className="inicio-product-wrapper">
                     <TarjetaCatalogo
                       producto={prod}

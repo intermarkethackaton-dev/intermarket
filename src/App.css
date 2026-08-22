@@ -11932,3 +11932,369 @@ body {
     padding-top: 40px !important;
   }
 }
+
+
+/* ============================================================
+   INICIO COMPRADOR - CATEGORÍAS COMPACTAS SOLO EN MÓVIL
+   Mantiene intacto el diseño de escritorio
+   ============================================================ */
+
+@media (max-width: 767.98px) {
+
+  /* La fila de categorías se convierte en una barra horizontal */
+  .inicio-section .row.g-4:has(.inicio-category-card) {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+
+    gap: 10px !important;
+
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 4px 2px 12px !important;
+
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+
+    scrollbar-width: none;
+  }
+
+  .inicio-section .row.g-4:has(.inicio-category-card)::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Cada categoría deja de ocupar media pantalla */
+  .inicio-section .row.g-4:has(.inicio-category-card) > div {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    max-width: none !important;
+    padding: 0 !important;
+
+    scroll-snap-align: start;
+  }
+
+  /* Tarjeta convertida en botón compacto */
+  .inicio-category-card {
+    width: 92px !important;
+    height: 92px !important;
+
+    min-width: 92px !important;
+
+    padding: 10px 7px !important;
+    margin: 0 !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    border-radius: 20px !important;
+
+    background: rgba(255, 255, 255, 0.72) !important;
+
+    border: 1px solid rgba(16, 69, 79, 0.10) !important;
+
+    box-shadow:
+      0 8px 20px rgba(16, 69, 79, 0.07) !important;
+
+    cursor: pointer;
+
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease !important;
+  }
+
+  .inicio-category-card:active {
+    transform: scale(0.96);
+  }
+
+  /* Icono más pequeño */
+  .inicio-category-icon {
+    width: 38px !important;
+    height: 38px !important;
+
+    margin: 0 0 7px !important;
+
+    border-radius: 12px !important;
+
+    font-size: 1rem !important;
+
+    background: rgba(16, 69, 79, 0.08) !important;
+    color: var(--color-primario) !important;
+  }
+
+  /* Nombre de categoría */
+  .inicio-category-card h6 {
+    margin: 0 !important;
+
+    width: 100%;
+
+    text-align: center;
+
+    font-size: 0.67rem !important;
+    font-weight: 750 !important;
+
+    line-height: 1.15;
+
+    color: var(--color-primario) !important;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* En móvil quitamos "Explorar" */
+  .inicio-category-card > span {
+    display: none !important;
+  }
+}
+
+/* ============================================================
+   CATÁLOGO - 2 PRODUCTOS POR FILA EN MÓVIL
+   ============================================================ */
+
+@media (max-width: 767.98px) {
+
+  .catalogo-products-grid > .catalogo-product-column {
+    flex: 0 0 50% !important;
+    width: 50% !important;
+    max-width: 50% !important;
+  }
+
+  .catalogo-products-grid {
+    --bs-gutter-x: 0.65rem !important;
+    --bs-gutter-y: 0.75rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .inicio-products-section .row.g-4 > * {
+    flex: 0 0 50% !important;
+    max-width: 50% !important;
+  }
+}
+
+
+/* ============================================================
+   INICIO COMPRADOR
+   PRODUCTOS DESTACADOS COMPACTOS EN MÓVIL
+   No modifica la página Catálogo ni escritorio
+   ============================================================ */
+
+@media (max-width: 767.98px) {
+
+  /* Dos productos por fila */
+  .inicio-products-section .row.g-4 {
+    --bs-gutter-x: 10px !important;
+    --bs-gutter-y: 12px !important;
+  }
+
+  .inicio-products-section .row.g-4 > * {
+    flex: 0 0 50% !important;
+    width: 50% !important;
+    max-width: 50% !important;
+  }
+
+  .inicio-product-wrapper {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  /* Tarjeta más limpia y pequeña */
+  .inicio-products-section .catalog-mobile-card {
+    width: 100% !important;
+    height: 100% !important;
+
+    border-radius: 16px !important;
+    overflow: hidden !important;
+
+    box-shadow:
+      0 6px 18px rgba(18, 38, 63, 0.08) !important;
+  }
+
+  /* La imagen actualmente es demasiado alta */
+  .inicio-products-section .catalog-mobile-media {
+    height: 145px !important;
+    margin: 5px !important;
+    border-radius: 13px !important;
+  }
+
+  /* Información más compacta */
+  .inicio-products-section .catalog-mobile-content {
+    padding: 8px !important;
+  }
+
+  /* Categoría */
+  .inicio-products-section .catalog-mobile-category {
+    font-size: 0.55rem !important;
+  }
+
+  /* Nombre del producto */
+  .inicio-products-section .catalog-mobile-title {
+    min-height: 34px !important;
+    height: auto !important;
+
+    margin: 4px 0 !important;
+
+    font-size: 0.76rem !important;
+    line-height: 1.15 !important;
+
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+  }
+
+  /* Precio */
+  .inicio-products-section .catalog-mobile-price {
+    font-size: 0.95rem !important;
+  }
+
+  /* Fila de botones */
+  .inicio-products-section .catalog-mobile-actions-row {
+    gap: 5px !important;
+    margin-top: 7px !important;
+  }
+
+  /* Botón mensaje */
+  .inicio-products-section .catalog-mobile-msg-btn {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    font-size: 0.78rem !important;
+  }
+
+  /* Botón Añadir al carrito */
+  .inicio-products-section .catalog-mobile-cart-pill {
+    min-height: 32px !important;
+
+    padding: 0 7px !important;
+
+    font-size: 0.60rem !important;
+
+    white-space: nowrap !important;
+  }
+}
+
+
+/* Celulares realmente pequeños */
+@media (max-width: 390px) {
+
+  .inicio-products-section .catalog-mobile-media {
+    height: 125px !important;
+  }
+
+  .inicio-products-section .catalog-mobile-content {
+    padding: 7px !important;
+  }
+
+  .inicio-products-section .catalog-mobile-title {
+    font-size: 0.70rem !important;
+  }
+
+  .inicio-products-section .catalog-mobile-price {
+    font-size: 0.88rem !important;
+  }
+
+  .inicio-products-section .catalog-mobile-cart-pill {
+    font-size: 0.55rem !important;
+    padding: 0 5px !important;
+  }
+}
+
+/* ============================================================
+   INICIO COMPRADOR - DESTACADOS
+   MISMO TAMAÑO QUE LAS TARJETAS DEL CATÁLOGO EN MÓVIL
+   ============================================================ */
+
+@media (max-width: 767.98px) {
+
+  /* Mantener 2 tarjetas por fila */
+  .inicio-products-section .row.g-4 {
+    --bs-gutter-x: 0.65rem !important;
+    --bs-gutter-y: 0.75rem !important;
+  }
+
+  .inicio-products-section .row.g-4 > * {
+    flex: 0 0 50% !important;
+    width: 50% !important;
+    max-width: 50% !important;
+  }
+
+  /* Misma forma que Catálogo */
+  .inicio-products-section .catalog-mobile-card {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 19px !important;
+  }
+
+  /* Misma imagen que Catálogo */
+  .inicio-products-section .catalog-mobile-media {
+    height: 158px !important;
+    margin: 6px !important;
+    border-radius: 15px !important;
+  }
+
+  /* Mismo contenido */
+  .inicio-products-section .catalog-mobile-content {
+    padding: 7px 10px 12px !important;
+  }
+
+  /* Misma categoría */
+  .inicio-products-section .catalog-mobile-category {
+    font-size: 0.59rem !important;
+  }
+
+  /* Mismo título */
+  .inicio-products-section .catalog-mobile-title {
+    min-height: 36px !important;
+    height: auto !important;
+    margin: 5px 0 8px !important;
+    font-size: 0.82rem !important;
+    line-height: 1.24 !important;
+  }
+
+  /* Mismo precio */
+  .inicio-products-section .catalog-mobile-price {
+    font-size: 0.98rem !important;
+  }
+
+  /* Mismo stock */
+  .inicio-products-section .catalog-mobile-stock {
+    margin-top: 5px !important;
+    font-size: 0.6rem !important;
+  }
+
+  /* Mismos botones */
+  .inicio-products-section .catalog-mobile-actions-row {
+    gap: 8px !important;
+    margin-top: 10px !important;
+  }
+
+  .inicio-products-section .catalog-mobile-msg-btn {
+    width: 38px !important;
+    min-width: 38px !important;
+    height: 38px !important;
+    font-size: 0.95rem !important;
+  }
+
+  .inicio-products-section .catalog-mobile-cart-pill {
+    min-height: 38px !important;
+    padding: 0 14px !important;
+    font-size: 0.72rem !important;
+  }
+}
+
+
+/* ============================================================
+   CELULARES PEQUEÑOS
+   MISMO AJUSTE QUE CATÁLOGO
+   ============================================================ */
+
+@media (max-width: 390px) {
+  .inicio-products-section .catalog-mobile-media {
+    height: 139px !important;
+  }
+}
+
