@@ -7123,7 +7123,7 @@ body {
 
 /* ============================================================
    SUSCRIPCION — FONDO CLARO (override)
-   ======================= */
+   ============================================================ */
 
 .susc-page {
   background: linear-gradient(
@@ -7181,6 +7181,324 @@ body {
 
 .susc-btn.is-active {
   color: #12202a;
+}
+
+/* ============================================================
+   SUSCRIPCION — RESPONSIVE MÓVIL (AJUSTE FINAL)
+   ============================================================ */
+
+@media (max-width: 767.98px) {
+  .susc-page {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  .susc-wrapper {
+    max-width: 100%;
+    width: 100%;
+    padding: 0.25rem 1rem 0.15rem; /* SOLO CAMBIO: padding inferior reducido de 0.5rem a 0.15rem */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    height: 100dvh;
+    margin: 0;
+    overflow-y: auto;
+  }
+
+  .susc-header {
+    margin-bottom: 1rem;
+    width: 100%;
+    flex-shrink: 0;
+  }
+
+  .susc-title {
+    font-size: 1.6rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .susc-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .susc-planes {
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    width: 100%;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 0 0.1rem;
+  }
+
+  .susc-plan-card {
+    padding: 0.9rem 1.15rem;
+    border-radius: 18px;
+    min-height: 70px;
+    width: 100%;
+    background: linear-gradient(
+      165deg,
+      rgba(255, 255, 255, 0.12) 0%,
+      rgba(255, 255, 255, 0.03) 45%,
+      rgba(255, 255, 255, 0.07) 100%
+    );
+    backdrop-filter: blur(30px) saturate(160%) brightness(1.06);
+    -webkit-backdrop-filter: blur(30px) saturate(160%) brightness(1.06);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 
+      inset 0 1px 0 rgba(255, 255, 255, 0.4),
+      0 10px 28px rgba(0, 0, 0, 0.22);
+    transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1),
+                box-shadow 0.3s ease, 
+                border-color 0.3s ease;
+  }
+
+  .susc-plan-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 
+      inset 0 1px 0 rgba(255, 255, 255, 0.5),
+      0 14px 34px rgba(0, 0, 0, 0.28);
+  }
+
+  .susc-plan-card.is-selected {
+    border-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 
+      inset 0 1px 0 rgba(255, 255, 255, 0.6),
+      0 0 0 2px rgba(129, 221, 229, 0.5),
+      0 14px 34px rgba(0, 0, 0, 0.3);
+  }
+
+  .susc-plan-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .susc-plan-nombre {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-primario, #10454F);
+  }
+
+  .susc-plan-precio {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #0c333b;
+  }
+
+  .susc-plan-precio small {
+    color: rgba(16, 69, 79, 0.6);
+  }
+
+  .susc-plan-desc {
+    font-size: 0.72rem;
+    margin-top: 0.2rem;
+    color: rgba(16, 69, 79, 0.65);
+  }
+
+  .susc-plan-check {
+    width: 20px;
+    height: 20px;
+    bottom: 0.8rem;
+    right: 0.8rem;
+    font-size: 0.65rem;
+    background: var(--color-primario, #10454F);
+    color: #f5f7fa;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(0.6);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    position: absolute;
+  }
+
+  .susc-plan-card.is-selected .susc-plan-check {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .susc-actions {
+    gap: 0.6rem;
+    width: 100%;
+    margin-top: 0.25rem;
+    padding-bottom: 1rem; /* Reducido para eliminar espacio extra */
+    flex-shrink: 0;
+  }
+
+  .susc-btn {
+    min-height: 48px;
+    font-size: 0.9rem;
+    max-width: 100%;
+    border-radius: 100px;
+    background: transparent;
+    border: 1px solid transparent;
+    color: rgba(255, 255, 255, 0.9);
+    transition: background 0.35s cubic-bezier(0.19, 1, 0.22, 1), 
+                border-color 0.35s cubic-bezier(0.19, 1, 0.22, 1), 
+                box-shadow 0.35s cubic-bezier(0.19, 1, 0.22, 1), 
+                color 0.3s ease, 
+                transform 0.25s ease;
+  }
+
+  .susc-btn.is-active {
+    background: rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border-color: rgba(255, 255, 255, 0.95);
+    color: #12202a;
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.9), 0 12px 28px rgba(0, 0, 0, 0.35);
+    transform: translateY(-2px);
+  }
+
+  .susc-btn-primary {
+    max-width: 100%;
+  }
+
+  .susc-btn-secondary {
+    font-size: 0.85rem;
+  }
+
+  .susc-badge-popular {
+    position: absolute;
+    top: -11px;
+    right: 18px;
+    background: #81dde5;
+    color: #0c333b;
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.65rem;
+    letter-spacing: 0.2px;
+    padding: 4px 12px;
+    border-radius: 100px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+  }
+
+  .susc-badge-prueba {
+    position: absolute;
+    top: -11px;
+    right: 18px;
+    background: linear-gradient(135deg, #8B5CF6, #6D28D9);
+    color: white;
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 0.3px;
+    padding: 5px 14px;
+    border-radius: 100px;
+    box-shadow: 0 4px 14px rgba(139, 92, 246, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  /* Ajuste para pantallas muy pequeñas */
+  @media (max-width: 400px) {
+    .susc-wrapper {
+      padding: 0.2rem 0.75rem 0.1rem;
+    }
+
+    .susc-title {
+      font-size: 1.4rem;
+    }
+
+    .susc-subtitle {
+      font-size: 0.75rem;
+    }
+
+    .susc-plan-card {
+      padding: 0.75rem 0.95rem;
+      min-height: 64px;
+    }
+
+    .susc-plan-nombre {
+      font-size: 0.82rem;
+    }
+
+    .susc-plan-precio {
+      font-size: 0.88rem;
+    }
+
+    .susc-plan-desc {
+      font-size: 0.65rem;
+    }
+
+    .susc-btn {
+      min-height: 44px;
+      font-size: 0.82rem;
+    }
+  }
+
+  /* Para pantallas de altura pequeña */
+  @media (max-height: 700px) {
+    .susc-wrapper {
+      padding: 10rem 1rem 0.1rem;
+    }
+
+    .susc-header {
+      margin-bottom: 0.6rem;
+    }
+
+    .susc-title {
+      font-size: 1.3rem;
+    }
+
+    .susc-subtitle {
+      font-size: 0.7rem;
+    }
+
+    .susc-planes {
+      gap: 0.5rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .susc-plan-card {
+      padding: 0.6rem 0.9rem;
+      min-height: 54px;
+      border-radius: 14px;
+    }
+
+    .susc-plan-nombre {
+      font-size: 0.78rem;
+    }
+
+    .susc-plan-precio {
+      font-size: 0.82rem;
+    }
+
+    .susc-plan-desc {
+      font-size: 0.6rem;
+    }
+
+    .susc-plan-check {
+      width: 16px;
+      height: 16px;
+      bottom: 0.5rem;
+      right: 0.5rem;
+      font-size: 0.5rem;
+    }
+
+    .susc-btn {
+      min-height: 38px;
+      font-size: 0.78rem;
+    }
+  }
 }
 
 /* ============================================================
