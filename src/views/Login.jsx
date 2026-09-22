@@ -162,64 +162,84 @@ function Login() {
     checkOAuthSession();
   }, [loading, role, navegar]);
 
-  const MobileNavbar = () => (
-    <div className="auth-mobile-navbar">
-      <div className="navbar-content">
-        <img src={logoCompleto} alt="InterMarket" className="navbar-logo" />
-        <span className="navbar-tagline">CONECTA, INTERCAMBIA, CRECE</span>
+  const MobileLoginView = () => (
+    <div className="login-mobile-view">
+      <div className="login-mobile-header">
+        <img src={logoCompleto} alt="InterMarket" className="login-mobile-logo" />
+        <span className="login-mobile-subtitle">Conecta, Intercambia, crece</span>
+      </div>
+
+      <div className="login-mobile-panel">
+        <h1 className="login-mobile-title">Inicia sesión</h1>
+        <p className="login-mobile-description">Ingresa tus datos para continuar en InterMarket.</p>
+
+        <FormularioLogin
+          usuario={usuario}
+          contraseña={contraseña}
+          error={error}
+          setUsuario={setUsuario}
+          setContraseña={setContraseña}
+          iniciarSesion={iniciarSesion}
+          iniciarSesionConGoogle={iniciarSesionConGoogle}
+          iniciarSesionConApple={iniciarSesionConApple}
+          cargando={cargando}
+        />
+
+        <div className="login-mobile-footer">
+          <span>¿No tienes cuenta? </span>
+          <button type="button" className="login-mobile-link" onClick={() => navegar("/registro")}>
+            Regístrate gratis
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  const DesktopLoginView = () => (
+    <div className="login-desktop-view">
+      <div className="login-desktop-hero">
+        <div className="login-desktop-blob login-desktop-blob-a" aria-hidden="true" />
+        <div className="login-desktop-blob login-desktop-blob-b" aria-hidden="true" />
+        <div className="login-desktop-brand">
+          <img src={logoCompleto} alt="InterMarket" className="login-desktop-logo" />
+          <p className="login-desktop-tagline">Conecta, Intercambia, Crece</p>
+        </div>
+      </div>
+
+      <div className="login-desktop-panel">
+        <div className="auth-card">
+          <h1 className="auth-card-title">Iniciar Sesión</h1>
+          <p className="auth-card-subtitle">Ingresa tus datos para continuar en InterMarket.</p>
+
+          <FormularioLogin
+            usuario={usuario}
+            contraseña={contraseña}
+            error={error}
+            setUsuario={setUsuario}
+            setContraseña={setContraseña}
+            iniciarSesion={iniciarSesion}
+            iniciarSesionConGoogle={iniciarSesionConGoogle}
+            iniciarSesionConApple={iniciarSesionConApple}
+            cargando={cargando}
+          />
+
+          <div className="auth-sheet-footer">
+            <small>
+              ¿No tienes cuenta?{" "}
+              <span className="auth-sheet-link" onClick={() => navegar("/registro")}>
+                Regístrate gratis
+              </span>
+            </small>
+          </div>
+        </div>
       </div>
     </div>
   );
 
   return (
     <div className="auth-page">
-      <div className="auth-shell">
-        <MobileNavbar />
-
-        <header className="auth-hero">
-          <div className="auth-hero-blob blob-a" aria-hidden="true"></div>
-          <div className="auth-hero-blob blob-b" aria-hidden="true"></div>
-          <div className="auth-hero-brand">
-            <img src={logoCompleto} alt="InterMarket" className="auth-hero-logo" />
-            <p className="auth-hero-tagline">Conecta, Intercambia, Crece</p>
-          </div>
-          <svg className="auth-hero-wave auth-hero-wave-vertical" viewBox="0 0 60 400" preserveAspectRatio="none" aria-hidden="true">
-            <path d="M30,0 C60,120 0,280 22.5,400 L60,400 L60,0 Z" fill="#ffffff" />
-          </svg>
-        </header>
-
-        <main className="auth-sheet">
-          <div className="auth-sheet-inner">
-            <div className="auth-card">
-              <h1 className="auth-card-title">Iniciar Sesión</h1>
-              <p className="auth-card-subtitle">
-                Ingresa tus datos para continuar en InterMarket.
-              </p>
-
-              <FormularioLogin
-                usuario={usuario}
-                contraseña={contraseña}
-                error={error}
-                setUsuario={setUsuario}
-                setContraseña={setContraseña}
-                iniciarSesion={iniciarSesion}
-                iniciarSesionConGoogle={iniciarSesionConGoogle}
-                iniciarSesionConApple={iniciarSesionConApple}
-                cargando={cargando}
-              />
-
-              <div className="auth-sheet-footer">
-                <small>
-                  ¿No tienes cuenta?{" "}
-                  <span className="auth-sheet-link" onClick={() => navegar("/registro")}>
-                    Regístrate gratis
-                  </span>
-                </small>
-              </div>
-            </div>
-          </div>
-        </main>
-      </div>
+      <MobileLoginView />
+      <DesktopLoginView />
     </div>
   );
 }

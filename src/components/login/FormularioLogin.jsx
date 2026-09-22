@@ -9,6 +9,7 @@ const FormularioLogin = ({
   setContraseña, 
   iniciarSesion, 
   iniciarSesionConGoogle,
+  iniciarSesionConApple,
   cargando 
 }) => {
   const [mostrarContraseña, setMostrarContraseña] = useState(false);
@@ -81,6 +82,15 @@ const FormularioLogin = ({
         disabled={cargando}
       >
         <i className="bi bi-google me-2 text-danger"></i> Continuar con Google
+      </Button>
+
+      <Button 
+        type="button" 
+        className="auth-oauth-btn auth-oauth-btn--apple w-100 shadow-sm d-flex justify-content-center align-items-center" 
+        onClick={iniciarSesionConApple}
+        disabled={cargando}
+      >
+        <i className="bi bi-apple me-2"></i> Continuar con Apple
       </Button>
     </Form>
   );
