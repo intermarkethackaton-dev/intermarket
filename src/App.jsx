@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -10,6 +10,7 @@ import { Spinner } from "react-bootstrap";
 import Encabezado from "./components/navegacion/Encabezado";
 import RutaProtegida from "./components/rutas/RutaProtegida";
 import ChatBotAsistente from "./components/ChatBotAsistente";
+import SplashScreen from "./components/SplashScreen";
 import "./App.css";
 
 
@@ -467,19 +468,31 @@ const AppLayout = () => {
 };
 
 
+
 // =========================================================
 // APP PRINCIPAL
 // =========================================================
 
 const App = () => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    document.body.style.overflow = loading ? "hidden" : "auto";
+  }, [loading]);
 
   return (
-    <Router>
-      <AppLayout />
-    </Router>
+    <div className={`app-container ${loading ? "loading" : "loaded"}`}>
+
+      {loading && (
+        <SplashScreen onFinish={() => setLoading(false)} />
+      )}
+
+      <Router>
+        <AppLayout />
+      </Router>
+
+    </div>
   );
-
 };
-
 
 export default App;
