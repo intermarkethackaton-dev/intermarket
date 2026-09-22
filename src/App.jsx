@@ -13,13 +13,11 @@ import ChatBotAsistente from "./components/ChatBotAsistente";
 import SplashScreen from "./components/SplashScreen";
 import "./App.css";
 
-
 // =========================================================
 // LAZY LOADING DE LAS VISTAS
 // =========================================================
 
 const Inicio = lazy(() => import("./views/Inicio"));
-
 
 // =========================================================
 // INICIO DEL COMPRADOR
@@ -28,7 +26,6 @@ const Inicio = lazy(() => import("./views/Inicio"));
 const InicioComprador = lazy(
   () => import("./views/InicioComprador")
 );
-
 
 // =========================================================
 // VISTAS GENERALES
@@ -48,13 +45,11 @@ const Perfil = lazy(() => import("./views/Perfil"));
 const Mensajes = lazy(() => import("./views/Mensajes"));
 const Suscripcion = lazy(() => import("./views/Suscripcion"));
 
-
 // =========================================================
 // ACCESO DEMO PARA JURADOS
 // =========================================================
 
 const Demo = lazy(() => import("./views/Demo"));
-
 
 // =========================================================
 // CHECKOUT
@@ -68,7 +63,6 @@ const CheckoutCancel = lazy(
   () => import("./views/CheckoutCancel")
 );
 
-
 // =========================================================
 // ENVÍOS
 // =========================================================
@@ -77,7 +71,6 @@ const GestionEnvios = lazy(
   () => import("./views/GestionEnvios")
 );
 
-
 // =========================================================
 // ADMIN
 // =========================================================
@@ -85,7 +78,6 @@ const GestionEnvios = lazy(
 const DasboardAdmin = lazy(
   () => import("./views/DasboardAdmin")
 );
-
 
 // =========================================================
 // LOADING
@@ -107,7 +99,6 @@ const LoadingFallback = () => (
   </div>
 );
 
-
 // =========================================================
 // APP LAYOUT
 // =========================================================
@@ -123,7 +114,6 @@ const AppLayout = () => {
     .toLowerCase()
     .replace(/\/$/, "");
 
-
   // =======================================================
   // PÁGINAS SIN NAVBAR
   // =======================================================
@@ -135,10 +125,8 @@ const AppLayout = () => {
     currentPath === "/suscripcion" ||
     currentPath === "/demo";
 
-
   const shouldShowNavbar =
     !isAuthPage;
-
 
   // =======================================================
   // RETURN
@@ -154,7 +142,6 @@ const AppLayout = () => {
       {shouldShowNavbar && (
         <Encabezado />
       )}
-
 
       {/* ===================================================
           CONTENIDO PRINCIPAL
@@ -174,7 +161,6 @@ const AppLayout = () => {
 
           <Routes>
 
-
             {/* =============================================
                 DEMO PARA JURADOS
             ============================================= */}
@@ -183,7 +169,6 @@ const AppLayout = () => {
               path="/demo"
               element={<Demo />}
             />
-
 
             {/* =============================================
                 LOGIN
@@ -194,7 +179,6 @@ const AppLayout = () => {
               element={<Login />}
             />
 
-
             {/* =============================================
                 REGISTRO
             ============================================= */}
@@ -203,7 +187,6 @@ const AppLayout = () => {
               path="/registro"
               element={<Registro />}
             />
-
 
             {/* =============================================
                 INICIO GENERAL
@@ -217,7 +200,6 @@ const AppLayout = () => {
                 </RutaProtegida>
               }
             />
-
 
             {/* =============================================
                 INICIO COMPRADOR
@@ -236,7 +218,6 @@ const AppLayout = () => {
               }
             />
 
-
             {/* =============================================
                 SELECCIÓN DE ROL
             ============================================= */}
@@ -249,7 +230,6 @@ const AppLayout = () => {
                 </RutaProtegida>
               }
             />
-
 
             {/* =============================================
                 SUSCRIPCIÓN
@@ -264,7 +244,6 @@ const AppLayout = () => {
               }
             />
 
-
             {/* =============================================
                 CATÁLOGO
             ============================================= */}
@@ -273,7 +252,6 @@ const AppLayout = () => {
               path="/catalogo"
               element={<Catalogo />}
             />
-
 
             {/* =============================================
                 PERFIL
@@ -288,7 +266,6 @@ const AppLayout = () => {
               }
             />
 
-
             {/* =============================================
                 MENSAJES
             ============================================= */}
@@ -301,7 +278,6 @@ const AppLayout = () => {
                 </RutaProtegida>
               }
             />
-
 
             {/* =============================================
                 PAGO - STRIPE
@@ -316,7 +292,6 @@ const AppLayout = () => {
               }
             />
 
-
             <Route
               path="/cancel"
               element={
@@ -325,7 +300,6 @@ const AppLayout = () => {
                 </RutaProtegida>
               }
             />
-
 
             {/* =============================================
                 PRODUCTOS
@@ -346,7 +320,6 @@ const AppLayout = () => {
               }
             />
 
-
             {/* =============================================
                 TIENDAS
                 SOLO VENDEDOR
@@ -365,7 +338,6 @@ const AppLayout = () => {
               }
             />
 
-
             {/* =============================================
                 VENDEDOR
             ============================================= */}
@@ -382,7 +354,6 @@ const AppLayout = () => {
                 </RutaProtegida>
               }
             />
-
 
             {/* =============================================
                 ENVÍOS
@@ -401,7 +372,6 @@ const AppLayout = () => {
               }
             />
 
-
             {/* =============================================
                 ADMINISTRADOR
             ============================================= */}
@@ -415,7 +385,6 @@ const AppLayout = () => {
               }
             />
 
-
             <Route
               path="/dasboard-admin"
               element={
@@ -424,7 +393,6 @@ const AppLayout = () => {
                 </RutaProtegida>
               }
             />
-
 
             {/* =============================================
                 CATEGORÍAS
@@ -439,7 +407,6 @@ const AppLayout = () => {
               }
             />
 
-
             {/* =============================================
                 404
             ============================================= */}
@@ -449,13 +416,11 @@ const AppLayout = () => {
               element={<Pagina404 />}
             />
 
-
           </Routes>
 
         </Suspense>
 
       </main>
-
 
       {/* ===================================================
           CHATBOT
@@ -466,7 +431,6 @@ const AppLayout = () => {
     </>
   );
 };
-
 
 
 // =========================================================
@@ -496,3 +460,4 @@ const App = () => {
 };
 
 export default App;
+

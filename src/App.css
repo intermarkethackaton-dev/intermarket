@@ -13093,3 +13093,591 @@ body {
   }
 
 }
+
+/* ==========================================================
+   INTERMARKET SPLASH SCREEN V8
+   Usa el MISMO fondo claro fijo que la pantalla de login,
+   para que no haya salto de color al terminar la animación.
+   Paleta oficial InterMarket
+========================================================== */
+
+:root{
+  --im-coral:#CA3326;
+  --im-teal:#1A7386;
+  --im-celeste:#B9E6E9;
+  --im-grisazul:#6697A8;
+  --im-gris:#E3DEE2;
+
+  /* Colores reales de tu fondo fijo (tomados de la imagen) */
+  --im-bg-teal:#5CD8D6;
+  --im-bg-coral:#FAC1BA;
+}
+
+/* =========================
+   CONTENEDOR PRINCIPAL
+========================= */
+
+.splash-screen{
+  position:fixed;
+  inset:0;
+  z-index:999999;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  overflow:hidden;
+
+  /* Aproximación en CSS del fondo fijo. Si tienes ese fondo como
+     imagen (asset) en tu proyecto, reemplaza esta línea por:
+     background:url(../assets/fondo-login.png) center/cover no-repeat;
+     para un empalme pixel-perfecto con la pantalla real. */
+  background:
+    linear-gradient(180deg, transparent 45%, rgba(255,255,255,.65) 100%),
+    linear-gradient(
+      135deg,
+      var(--im-bg-teal) 0%,
+      #BEEAE8 28%,
+      #E4DAD6 55%,
+      var(--im-bg-coral) 80%,
+      #FCD9D4 100%
+    );
+
+  transition:opacity .45s ease, visibility .45s ease;
+}
+
+.phase-5{
+  animation:fadeSplash .5s cubic-bezier(.4,0,.2,1) forwards;
+}
+
+@keyframes fadeSplash{
+  from{
+    opacity:1;
+  }
+  to{
+    opacity:0;
+    visibility:hidden;
+    transform:scale(1.02);
+  }
+}
+
+/* =========================
+   TEXTURA SUAVE DE FONDO
+   (antes era el "mesh" oscuro; ahora una veladura muy sutil
+   para dar movimiento sin oscurecer el fondo claro)
+========================= */
+
+.splash-bg{
+  position:absolute;
+  inset:-25%;
+  z-index:0;
+
+  background:
+    radial-gradient(circle at 18% 22%, rgba(26,115,134,.16), transparent 30%),
+    radial-gradient(circle at 82% 18%, rgba(255,255,255,.35), transparent 30%),
+    radial-gradient(circle at 70% 80%, rgba(202,51,38,.10), transparent 34%),
+    radial-gradient(circle at 30% 75%, rgba(102,151,168,.14), transparent 34%);
+
+  filter:blur(45px);
+  animation:meshMove 12s ease-in-out infinite alternate;
+}
+
+@keyframes meshMove{
+  from{
+    transform:scale(1) rotate(0deg);
+  }
+  to{
+    transform:scale(1.12) rotate(3deg);
+  }
+}
+
+/* =========================
+   HALOS DE COLOR
+========================= */
+
+.halo{
+  position:absolute;
+  width:420px;
+  height:420px;
+  border-radius:50%;
+  filter:blur(120px);
+  z-index:1;
+}
+
+.halo-left{
+  left:-140px;
+  bottom:-140px;
+  background:rgba(202,51,38,.20);
+  animation:haloCoral 8s ease-in-out infinite;
+}
+
+.halo-right{
+  right:-140px;
+  top:-140px;
+  background:rgba(26,115,134,.20);
+  animation:haloTeal 9s ease-in-out infinite;
+}
+
+@keyframes haloCoral{
+  50%{
+    transform:translate(35px,-30px) scale(1.15);
+  }
+}
+
+@keyframes haloTeal{
+  50%{
+    transform:translate(-30px,35px) scale(1.12);
+  }
+}
+
+/* =========================
+   EFECTO GLASS
+========================= */
+
+.splash-noise{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  opacity:.05;
+
+  background-image:
+    radial-gradient(rgba(8,26,35,.35) 1px, transparent 1px);
+
+  background-size:8px 8px;
+  mix-blend-mode:multiply;
+}
+
+/* =========================
+   PARTICULAS
+   (recoloreadas a tonos sólidos del brand para que se vean
+   bien sobre el fondo claro; antes usaban celeste muy claro)
+========================= */
+
+.particles{
+  position:absolute;
+  inset:0;
+  z-index:2;
+}
+
+.particles span{
+  position:absolute;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+
+  left:calc((var(--i) * 2.5%) + 3%);
+  top:110%;
+
+  opacity:.8;
+
+  animation:particleUp calc(6s + var(--i) * .08s) linear infinite;
+}
+
+.particles span:nth-child(odd){
+  background:var(--im-teal);
+  box-shadow:0 0 10px rgba(26,115,134,.55);
+}
+
+.particles span:nth-child(even){
+  background:var(--im-coral);
+  box-shadow:0 0 10px rgba(202,51,38,.55);
+}
+
+@keyframes particleUp{
+
+  0%{
+    transform:translateY(0) scale(.2);
+    opacity:0;
+  }
+
+  20%{
+    opacity:.85;
+  }
+
+  100%{
+    transform:translateY(-140vh) scale(1.5);
+    opacity:0;
+  }
+
+}
+
+/* =========================
+   LOGO
+========================= */
+
+.logo-wrapper{
+  position:relative;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:5;
+}
+
+/* Halo suave detrás del ícono para que resalte sobre el fondo claro,
+   simulando el "brillo" que antes daba el fondo oscuro */
+.logo-wrapper::before{
+  content:"";
+  position:absolute;
+  width:260px;
+  height:260px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(255,255,255,.85) 0%, transparent 70%);
+  z-index:-1;
+}
+
+.icon-logo{
+  width:240px;
+
+  opacity:0;
+  transform:scale(.5);
+
+  animation:logoIn .65s cubic-bezier(.18,1,.3,1) forwards;
+}
+
+.logo-wrapper.glow .icon-logo{
+  animation:
+    logoIn .65s cubic-bezier(.18,1,.3,1) forwards,
+    logoPulse .8s ease-in-out .4s infinite alternate;
+}
+
+@keyframes logoIn{
+  to{
+    opacity:1;
+    transform:scale(1);
+
+    filter:
+      drop-shadow(0 0 16px rgba(26,115,134,.55))
+      drop-shadow(0 0 16px rgba(202,51,38,.30));
+  }
+}
+
+@keyframes logoPulse{
+
+  from{
+    transform:scale(1);
+  }
+
+  to{
+    transform:scale(1.04);
+
+    filter:
+      drop-shadow(0 0 22px rgba(26,115,134,.6))
+      drop-shadow(0 0 20px rgba(202,51,38,.35));
+  }
+
+}
+
+/* =========================
+   LINEA DE ENERGIA
+========================= */
+
+.energy-line{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+
+  width:0;
+  height:4px;
+  border-radius:10px;
+
+  opacity:0;
+
+  background:linear-gradient(
+      90deg,
+      var(--im-teal),
+      #ffffff,
+      var(--im-coral)
+  );
+}
+
+.logo-wrapper.glow .energy-line{
+  opacity:1;
+  animation:energy .45s forwards;
+}
+
+@keyframes energy{
+  to{
+    width:240px;
+
+    box-shadow:
+      0 0 14px rgba(255,255,255,.8),
+      0 0 22px rgba(26,115,134,.35);
+  }
+}
+
+/* =========================
+   CIRCULO DE PULSO
+========================= */
+
+.energy-circle{
+  position:absolute;
+  width:240px;
+  height:240px;
+
+  border-radius:50%;
+  border:2px solid rgba(26,115,134,.35);
+
+  opacity:0;
+}
+
+.logo-wrapper.glow .energy-circle{
+  animation:ring .9s ease-out infinite;
+}
+
+@keyframes ring{
+
+  from{
+    transform:scale(.75);
+    opacity:.7;
+  }
+
+  to{
+    transform:scale(1.5);
+    opacity:0;
+  }
+
+}
+
+/* =========================
+   ORBITAS NEON
+========================= */
+
+.orbit{
+  position:absolute;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  left:50%;
+  top:50%;
+  margin:-5px;
+  opacity:0;
+
+  box-shadow:0 0 6px rgba(8,26,35,.25);
+  transition:opacity .3s ease;
+}
+
+.logo-wrapper.glow .orbit{
+  opacity:1;
+}
+
+.orbit1{
+  background:var(--im-coral);
+  animation:orbit1 1.2s linear infinite;
+}
+
+.orbit2{
+  background:var(--im-teal);
+  animation:orbit2 1.2s linear infinite;
+}
+
+.orbit3{
+  background:#ffffff;
+  border:2px solid var(--im-teal);
+  animation:orbit3 1.2s linear infinite;
+}
+
+.orbit4{
+  background:var(--im-grisazul);
+  animation:orbit4 1.2s linear infinite;
+}
+
+@keyframes orbit1{
+  from{transform:rotate(0deg) translateX(105px);}
+  to{transform:rotate(360deg) translateX(105px);}
+}
+
+@keyframes orbit2{
+  from{transform:rotate(90deg) translateX(105px);}
+  to{transform:rotate(450deg) translateX(105px);}
+}
+
+@keyframes orbit3{
+  from{transform:rotate(180deg) translateX(105px);}
+  to{transform:rotate(540deg) translateX(105px);}
+}
+
+@keyframes orbit4{
+  from{transform:rotate(270deg) translateX(105px);}
+  to{transform:rotate(630deg) translateX(105px);}
+}
+
+/* =========================
+   TEXTO INTERMARKET (letra por letra)
+========================= */
+
+.logo-text{
+  display:flex;
+  margin-top:30px;
+  z-index:10;
+
+  font-family:'Poppins', 'Segoe UI', sans-serif;
+  font-weight:800;
+  font-size:64px;
+  letter-spacing:-1px;
+  line-height:1;
+}
+
+.letter{
+  display:inline-block;
+  opacity:0;
+  transform:translateY(22px);
+}
+
+.logo-text.show .letter{
+  animation:letterUp .5s cubic-bezier(.16,1,.3,1) forwards;
+  animation-delay:calc(var(--i) * 35ms);
+}
+
+@keyframes letterUp{
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+.logo-slogan{
+  width:290px;
+  margin-top:12px;
+
+  opacity:0;
+  transform:translateY(20px);
+
+  transition:all .35s ease;
+  z-index:10;
+}
+
+.logo-slogan.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* =========================
+   CONTENEDOR APP
+========================= */
+
+.app-container{
+  position:relative;
+  width:100%;
+  min-height:100vh;
+}
+
+.app-container.loaded .splash-screen{
+  opacity:0;
+  visibility:hidden;
+}
+
+/* =========================
+   RESPONSIVE CELULAR
+========================= */
+
+@media (max-width:480px){
+
+  .icon-logo{
+    width:170px;
+  }
+
+  .logo-wrapper::before{
+    width:190px;
+    height:190px;
+  }
+
+  .energy-circle{
+    width:170px;
+    height:170px;
+  }
+
+  .logo-wrapper.glow .energy-line{
+    animation:energyMobile .45s forwards;
+  }
+
+  @keyframes energyMobile{
+    to{
+      width:170px;
+      box-shadow:0 0 14px rgba(255,255,255,.8);
+    }
+  }
+
+  .orbit1,
+  .orbit2,
+  .orbit3,
+  .orbit4{
+    animation-duration:1s;
+  }
+
+  @keyframes orbit1{
+    from{transform:rotate(0deg) translateX(72px);}
+    to{transform:rotate(360deg) translateX(72px);}
+  }
+
+  @keyframes orbit2{
+    from{transform:rotate(90deg) translateX(72px);}
+    to{transform:rotate(450deg) translateX(72px);}
+  }
+
+  @keyframes orbit3{
+    from{transform:rotate(180deg) translateX(72px);}
+    to{transform:rotate(540deg) translateX(72px);}
+  }
+
+  @keyframes orbit4{
+    from{transform:rotate(270deg) translateX(72px);}
+    to{transform:rotate(630deg) translateX(72px);}
+  }
+
+  .logo-text{
+    font-size:34px;
+    margin-top:22px;
+  }
+
+  .logo-slogan{
+    width:180px;
+    margin-top:8px;
+  }
+
+  .halo{
+    width:260px;
+    height:260px;
+    filter:blur(90px);
+  }
+
+  .splash-bg{
+    filter:blur(35px);
+  }
+
+}
+
+/* Tablet */
+
+@media (min-width:481px) and (max-width:768px){
+
+  .icon-logo{
+    width:200px;
+  }
+
+  .logo-text{
+    font-size:46px;
+  }
+
+  .logo-slogan{
+    width:220px;
+  }
+
+}
+
+/* Desktop */
+
+@media (min-width:769px){
+
+  .icon-logo{
+    width:250px;
+  }
+
+  .logo-text{
+    font-size:64px;
+  }
+
+  .logo-slogan{
+    width:300px;
+  }
+
+}
