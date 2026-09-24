@@ -11,7 +11,7 @@ const Vendedor = () => {
 
   const [pedidos, setPedidos] = useState([]);
   const [miPerfilId, setMiPerfilId] = useState(null);
-  const [idTienda, setIdTienda] = useState(null);
+  const [tiendas, setTiendas] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [nombreUsuario, setNombreUsuario] = useState("");
   const [stats, setStats] = useState({ ventaMes: 0, pedidos: 0, productos: 0 });
@@ -26,7 +26,7 @@ const Vendedor = () => {
     try {
       setCargando(true);
 
-      const [perfilRes, subRes] = await Promise.all([
+      const [perfilRes, subRes, tiendasRes] = await Promise.all([
         supabase
           .from("perfiles")
           .select("perfil_id, id_tienda, usuarios(username, email)")
@@ -38,10 +38,18 @@ const Vendedor = () => {
           .eq("id_usuario", user.id)
           .eq("estado", "activo")
           .maybeSingle(),
+        supabase
+          .from("tiendas")
+          .select("id_tienda, nombre_tienda, imagen_url")
+          .eq("id_usuario", user.id)
+          .order("creado_en", { ascending: true }),
       ]);
 
       const perfil = perfilRes.data;
       setSuscripcion(subRes.data);
+
+      const listaTiendas = tiendasRes.data || [];
+      setTiendas(listaTiendas);
 
       const nombre =
         perfil?.usuarios?.username ||
@@ -50,23 +58,23 @@ const Vendedor = () => {
         "Usuario";
       setNombreUsuario(nombre);
 
-      if (!perfil?.id_tienda) {
+      if (listaTiendas.length === 0) {
         setPedidos([]);
-        setIdTienda(null);
         setCargando(false);
         return;
       }
 
-      setMiPerfilId(perfil.perfil_id);
-      setIdTienda(perfil.id_tienda);
+      setMiPerfilId(perfil?.perfil_id || null);
 
-      // Productos
+      const idsTiendas = listaTiendas.map((t) => t.id_tienda);
+
+      // Productos totales (todas las tiendas)
       const { count: numProductos } = await supabase
         .from("productos")
         .select("id_producto", { count: "exact", head: true })
-        .eq("id_tienda", perfil.id_tienda);
+        .in("id_tienda", idsTiendas);
 
-      // Pedidos de la tienda
+      // Pedidos de todas las tiendas
       const { data, error } = await supabase
         .from("pedidos")
         .select(`
@@ -75,6 +83,7 @@ const Vendedor = () => {
           precio_unitario,
           id_estado,
           id_producto,
+          id_tienda,
           cantidad,
           talla_seleccionada,
           color_seleccionado,
@@ -83,9 +92,13 @@ const Vendedor = () => {
             imagen_url,
             id_tienda
           ),
+          tiendas (
+            id_tienda,
+            nombre_tienda
+          ),
           perfiles ( usuarios ( username ) )
         `)
-        .eq("productos.id_tienda", perfil.id_tienda)
+        .in("id_tienda", idsTiendas)
         .order("creado_en", { ascending: false });
 
       if (error) throw error;
@@ -93,7 +106,7 @@ const Vendedor = () => {
       const listaPedidos = data || [];
       setPedidos(listaPedidos);
 
-      // Venta del mes (estados 2 y 4)
+      // Venta del mes (estados 2, 4 y 5)
       const ahora = new Date();
       const mesActual = ahora.getMonth();
       const anioActual = ahora.getFullYear();
@@ -103,7 +116,8 @@ const Vendedor = () => {
           const fecha = new Date(p.creado_en);
           const esMes =
             fecha.getMonth() === mesActual && fecha.getFullYear() === anioActual;
-          const esVendido = p.id_estado === 2 || p.id_estado === 4;
+          const esVendido =
+            p.id_estado === 2 || p.id_estado === 4 || p.id_estado === 5;
           return esMes && esVendido;
         })
         .reduce((acc, p) => {
@@ -226,6 +240,7 @@ const Vendedor = () => {
       case 2: return "Pagado";
       case 3: return "Cancelado";
       case 4: return "Entregado";
+      case 5: return "En camino";
       default: return "Desconocido";
     }
   };
@@ -236,6 +251,7 @@ const Vendedor = () => {
       case 2: return "#22c55e";
       case 3: return "#ef4444";
       case 4: return "#3b82f6";
+      case 5: return "#8b5cf6";
       default: return "#94a3b8";
     }
   };
@@ -251,7 +267,7 @@ const Vendedor = () => {
     );
   }
 
-  if (!idTienda) {
+  if (tiendas.length === 0) {
     return (
       <div
         style={{
@@ -485,6 +501,7 @@ const Vendedor = () => {
               const total =
                 Number(pedido.precio_unitario || 0) * Number(pedido.cantidad || 1);
               const idCorto = String(pedido.id_pedido).replace(/-/g, "").slice(0, 4);
+              const nombreTienda = pedido.tiendas?.nombre_tienda;
 
               return (
                 <div
@@ -536,6 +553,22 @@ const Vendedor = () => {
                       >
                         {pedido.productos?.nombre_producto || "Producto"}
                       </div>
+
+                      {/* Tienda solo si tiene más de 1 */}
+                      {tiendas.length > 1 && nombreTienda && (
+                        <div
+                          style={{
+                            fontSize: "0.72rem",
+                            color: "#0d5c63",
+                            fontWeight: 600,
+                            marginTop: 2,
+                          }}
+                        >
+                          <i className="bi bi-shop me-1"></i>
+                          {nombreTienda}
+                        </div>
+                      )}
+
                       <div style={{ fontSize: "0.8rem", color: "#94a3b8", marginTop: 2 }}>
                         Pedido #{idCorto}
                       </div>
@@ -631,7 +664,7 @@ const Vendedor = () => {
 
         {pedidos.length > 5 && (
           <button
-            onClick={() => navigate("/pedidos")}
+            onClick={() => navigate("/pedidos-vendedor")}
             style={{
               width: "100%",
               marginTop: 12,

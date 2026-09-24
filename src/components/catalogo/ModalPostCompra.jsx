@@ -1,8 +1,11 @@
 import React from 'react';
 import { Modal, Button, ListGroup } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 const ModalPostCompra = ({ mostrar, setMostrar, items, alCalificar }) => {
-    
+
+    const navigate = useNavigate();
+
     // Filtramos para evitar productos duplicados si compraron más de 1 unidad del mismo
     const itemsUnicos = items ? items.filter((v, i, a) => a.findIndex(t => (t.id_producto === v.id_producto)) === i) : [];
 
@@ -55,8 +58,24 @@ const ModalPostCompra = ({ mostrar, setMostrar, items, alCalificar }) => {
                     </>
                 )}
             </Modal.Body>
-            <Modal.Footer className="border-0 pt-0">
-                <Button variant="secondary" className="w-100" onClick={() => setMostrar(false)}>
+            <Modal.Footer className="border-0 pt-0 d-flex flex-column gap-2">
+                <Button 
+                    className="w-100" 
+                    style={{
+                        backgroundColor: "var(--color-primario)",
+                        borderColor: "var(--color-primario)",
+                        borderRadius: 50,
+                        fontWeight: 600,
+                    }}
+                    onClick={() => {
+                        setMostrar(false);
+                        navigate("/mis-pedidos");
+                    }}
+                >
+                    <i className="bi bi-truck me-2"></i>
+                    Ver seguimiento de mi pedido
+                </Button>
+                <Button variant="secondary" className="w-100" style={{ borderRadius: 50 }} onClick={() => setMostrar(false)}>
                     Cerrar y seguir navegando
                 </Button>
             </Modal.Footer>

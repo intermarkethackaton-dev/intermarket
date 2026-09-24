@@ -80,9 +80,10 @@ const GestionEnvios = () => {
     const actualizarEstado = async (idPedido, nuevoEstado) => {
         try {
             // 1. Actualizar primero el estado del pedido en Supabase
+            // ⚠️ CAMBIO: id_estado → id_estado_pedido
             const { error: errorEstado } = await supabase
                 .from('pedidos')
-                .update({ id_estado: nuevoEstado })
+                .update({ id_estado_pedido: nuevoEstado })
                 .eq('id_pedido', idPedido);
 
             if (errorEstado) throw errorEstado;
@@ -113,10 +114,11 @@ const GestionEnvios = () => {
                         if (!errStock) {
                             alert(`✅ ¡Pedido Aceptado! Stock de "${producto.nombre_producto}" actualizado a ${nuevoStock}`);
                             
-                            // --- NUEVO: Alerta de Stock Bajo ---
+                            // --- Alerta de Stock Bajo ---
                             if (nuevoStock <= 5 && miPerfilId) {
+                                // ⚠️ CAMBIO: usuario_id → perfil_id (la columna real es perfil_id)
                                 await supabase.from('notificaciones').insert([{
-                                    usuario_id: miPerfilId, // Usar perfil_id
+                                    perfil_id: miPerfilId,
                                     titulo: '⚠️ ¡Stock Bajo!',
                                     mensaje: `Atención: El producto "${producto.nombre_producto}" se está agotando. Quedan ${nuevoStock} unidades.`
                                 }]);
@@ -133,8 +135,9 @@ const GestionEnvios = () => {
                 const msj = nuevoEstado === 2 ? 'Tu pedido ha sido aceptado.' : 
                             nuevoEstado === 4 ? 'Tu pedido ha sido entregado.' : 'Tu pedido ha sido cancelado.';
                 
+                // ⚠️ CAMBIO: usuario_id → perfil_id
                 await supabase.from('notificaciones').insert([{
-                    usuario_id: pedidoSeleccionado.perfil_id,
+                    perfil_id: pedidoSeleccionado.perfil_id,
                     titulo: 'Actualización de Envío',
                     mensaje: msj
                 }]);
@@ -154,9 +157,10 @@ const GestionEnvios = () => {
     const getEstadoTexto = (id) => {
         switch(id) {
             case 1: return 'Pendiente';
-            case 2: return 'En Camino';
+            case 2: return 'Aceptado';
             case 3: return 'Cancelado';
             case 4: return 'Entregado';
+            case 5: return 'En camino';
             default: return 'Desconocido';
         }
     };
@@ -164,9 +168,10 @@ const GestionEnvios = () => {
     const getBadgeColor = (id) => {
         switch(id) {
             case 1: return 'warning';
-            case 2: return 'info';
+            case 2: return 'success';
             case 3: return 'danger';
-            case 4: return 'success';
+            case 4: return 'primary';
+            case 5: return 'info';
             default: return 'secondary';
         }
     };
@@ -236,8 +241,8 @@ const GestionEnvios = () => {
                                     <td>{new Date(pedido.creado_en).toLocaleDateString()}</td>
                                     <td className="fw-bold text-dark">C${Number(pedido.precio_unitario).toFixed(2)}</td>
                                     <td>
-                                        <Badge bg={getBadgeColor(pedido.id_estado)} className="px-3 py-2 rounded-pill shadow-sm">
-                                            {getEstadoTexto(pedido.id_estado)}
+                                        <Badge bg={getBadgeColor(pedido.id_estado_pedido)} className="px-3 py-2 rounded-pill shadow-sm">
+                                            {getEstadoTexto(pedido.id_estado_pedido)}
                                         </Badge>
                                     </td>
                                     <td className="text-center pe-4">
@@ -250,7 +255,7 @@ const GestionEnvios = () => {
                                             >
                                                 <i className="bi bi-eye me-1"></i> Detalles
                                             </Button>
-                                            {pedido.id_estado === 2 && (
+                                            {pedido.id_estado_pedido === 5 && (
                                                 <Button 
                                                     variant="success" 
                                                     size="sm" 
@@ -335,18 +340,18 @@ const GestionEnvios = () => {
                         <div>
                         <h6 className="text-muted fw-bold text-uppercase small mb-3">Acciones de Logística</h6>
                         <div className="d-grid gap-2">
-                            {pedidoSeleccionado.id_estado === 1 && (
+                            {pedidoSeleccionado.id_estado_pedido === 1 && (
                                 <Button variant="primary" size="lg" className="rounded-pill shadow-sm py-3" onClick={() => actualizarEstado(pedidoSeleccionado.id_pedido, 2)}>
                                     <i className="bi bi-box-seam me-2"></i> Aceptar y Preparar
                                 </Button>
                             )}
-                            {pedidoSeleccionado.id_estado === 2 && (
+                            {pedidoSeleccionado.id_estado_pedido === 5 && (
                                 <Button variant="success" size="lg" className="rounded-pill shadow-sm py-3" onClick={() => actualizarEstado(pedidoSeleccionado.id_pedido, 4)}>
                                     <i className="bi bi-check2-circle me-2"></i> Confirmar Entrega
                                 </Button>
                             )}
                             <div className="d-flex gap-2 mt-2">
-                                {pedidoSeleccionado.id_estado !== 4 && pedidoSeleccionado.id_estado !== 3 && (
+                                {pedidoSeleccionado.id_estado_pedido !== 4 && pedidoSeleccionado.id_estado_pedido !== 3 && (
                                     <Button variant="outline-danger" className="rounded-pill flex-grow-1" onClick={() => actualizarEstado(pedidoSeleccionado.id_pedido, 3)}>
                                         <i className="bi bi-x-circle me-1"></i> Cancelar
                                     </Button>

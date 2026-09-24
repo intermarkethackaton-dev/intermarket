@@ -46,6 +46,13 @@ const Mensajes = lazy(() => import("./views/Mensajes"));
 const Suscripcion = lazy(() => import("./views/Suscripcion"));
 
 // =========================================================
+// PEDIDOS - COMPRADOR Y VENDEDOR
+// =========================================================
+
+const MisPedidos = lazy(() => import("./views/MisPedidos"));
+const PedidosVendedor = lazy(() => import("./views/PedidosVendedor"));
+
+// =========================================================
 // ACCESO DEMO PARA JURADOS
 // =========================================================
 
@@ -280,6 +287,40 @@ const AppLayout = () => {
             />
 
             {/* =============================================
+                MIS PEDIDOS - COMPRADOR
+            ============================================= */}
+
+            <Route
+              path="/mis-pedidos"
+              element={
+                <RutaProtegida
+                  rolesPermitidos={[
+                    "comprador",
+                  ]}
+                >
+                  <MisPedidos />
+                </RutaProtegida>
+              }
+            />
+
+            {/* =============================================
+                PEDIDOS DEL VENDEDOR
+            ============================================= */}
+
+            <Route
+              path="/pedidos-vendedor"
+              element={
+                <RutaProtegida
+                  rolesPermitidos={[
+                    "vendedor",
+                  ]}
+                >
+                  <PedidosVendedor />
+                </RutaProtegida>
+              }
+            />
+
+            {/* =============================================
                 PAGO - STRIPE
             ============================================= */}
 
@@ -460,4 +501,3 @@ const App = () => {
 };
 
 export default App;
-

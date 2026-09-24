@@ -931,6 +931,27 @@ const Encabezado = () => {
         )}
 
 
+        {/* ============================================
+            MIS PEDIDOS (COMPRADOR)
+        ============================================ */}
+
+        {role === "comprador" && (
+
+          <Dropdown.Item
+            onClick={() =>
+              navegar("/mis-pedidos")
+            }
+          >
+
+            <i className="bi bi-bag-check"></i>
+
+            Mis Pedidos
+
+          </Dropdown.Item>
+
+        )}
+
+
         <Dropdown.Item
           onClick={() =>
             navegar("/seleccion-rol")
@@ -1285,6 +1306,32 @@ const Encabezado = () => {
 
                   </Nav.Link>
 
+
+                  {/* ==========================================
+                      PEDIDOS DEL VENDEDOR
+                  ========================================== */}
+
+                  <Nav.Link
+                    className={
+                      esRutaActiva(
+                        "/pedidos-vendedor"
+                      )
+                        ? "active"
+                        : ""
+                    }
+                    onClick={() =>
+                      navegar(
+                        "/pedidos-vendedor"
+                      )
+                    }
+                  >
+
+                    <i className="bi bi-receipt me-1"></i>
+
+                    Pedidos
+
+                  </Nav.Link>
+
                 </>
 
               )}
@@ -1344,6 +1391,32 @@ const Encabezado = () => {
                     <i className="bi bi-grid me-1"></i>
 
                     Catálogo
+
+                  </Nav.Link>
+
+
+                  {/* ==========================================
+                      MIS PEDIDOS (COMPRADOR)
+                  ========================================== */}
+
+                  <Nav.Link
+                    className={
+                      esRutaActiva(
+                        "/mis-pedidos"
+                      )
+                        ? "active"
+                        : ""
+                    }
+                    onClick={() =>
+                      navegar(
+                        "/mis-pedidos"
+                      )
+                    }
+                  >
+
+                    <i className="bi bi-bag-check me-1"></i>
+
+                    Mis Pedidos
 
                   </Nav.Link>
 
@@ -1645,6 +1718,33 @@ const Encabezado = () => {
 
                         </button>
 
+
+                        {/* ========================
+                            PEDIDOS DEL VENDEDOR
+                        ======================== */}
+
+                        <button
+                          type="button"
+                          className={
+                            esRutaActiva(
+                              "/pedidos-vendedor"
+                            )
+                              ? "active"
+                              : ""
+                          }
+                          onClick={() =>
+                            navegar(
+                              "/pedidos-vendedor"
+                            )
+                          }
+                        >
+
+                          <i className="bi bi-receipt"></i>
+
+                          Pedidos
+
+                        </button>
+
                       </>
 
                     )}
@@ -1704,6 +1804,33 @@ const Encabezado = () => {
                           <i className="bi bi-grid"></i>
 
                           Catálogo
+
+                        </button>
+
+
+                        {/* ========================
+                            MIS PEDIDOS
+                        ======================== */}
+
+                        <button
+                          type="button"
+                          className={
+                            esRutaActiva(
+                              "/mis-pedidos"
+                            )
+                              ? "active"
+                              : ""
+                          }
+                          onClick={() =>
+                            navegar(
+                              "/mis-pedidos"
+                            )
+                          }
+                        >
+
+                          <i className="bi bi-bag-check"></i>
+
+                          Mis Pedidos
 
                         </button>
 
@@ -1869,39 +1996,15 @@ const Encabezado = () => {
               />
 
 
-              {/* CARRITO */}
+              {/* ============================================
+                  MIS PEDIDOS
+              ============================================ */}
 
-              <button
-                type="button"
-                className="liquid-mobile-bottom-item"
-                onClick={
-                  abrirCarrito
-                }
-              >
-
-                <span className="liquid-mobile-bottom-icon">
-
-                  <i className="bi bi-cart3"></i>
-
-
-                  {carritoCount > 0 && (
-
-                    <span className="liquid-bottom-cart-count">
-
-                      {carritoCount}
-
-                    </span>
-
-                  )}
-
-                </span>
-
-
-                <small>
-                  Carrito
-                </small>
-
-              </button>
+              <MobileBottomItem
+                ruta="/mis-pedidos"
+                icono="bag-check"
+                texto="Pedidos"
+              />
 
 
               {/* PERFIL */}
