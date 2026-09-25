@@ -12,6 +12,16 @@ const sugerencias = [
   "Categorías disponibles",
 ];
 
+// El chat solo muestra texto plano, así que quitamos cualquier símbolo
+// de Markdown que Gemini pueda colar (**negrita**, *cursiva*, etc.)
+const limpiarMarkdown = (texto) =>
+  String(texto || "")
+    .replace(/\*\*(.*?)\*\*/g, "$1")
+    .replace(/\*(.*?)\*/g, "$1")
+    .replace(/__(.*?)__/g, "$1")
+    .replace(/`(.*?)`/g, "$1")
+    .replace(/^#{1,6}\s*/gm, "");
+
 const ChatBotAsistente = () => {
   const { user, role } = useAuth();
   const navigate = useNavigate();
@@ -29,6 +39,12 @@ const ChatBotAsistente = () => {
   const [entrada, setEntrada] = useState("");
   const [pensando, setPensando] = useState(false);
   const finRef = useRef(null);
+  // Guardamos siempre la última lista de mensajes en un ref, para poder
+  // armar el historial que se envía a la IA sin depender de closures viejos.
+  const mensajesRef = useRef(mensajes);
+  useEffect(() => {
+    mensajesRef.current = mensajes;
+  }, [mensajes]);
 
   // Solo compradores / visitantes (no vendedor ni admin en panel)
   const rutasOcultas = ["/login", "/registro", "/seleccion-rol", "/suscripcion"];
@@ -49,7 +65,7 @@ const ChatBotAsistente = () => {
   const agregarBot = (texto) => {
     setMensajes((prev) => [
       ...prev,
-      { id: Date.now() + Math.random(), de: "bot", texto },
+      { id: Date.now() + Math.random(), de: "bot", texto: limpiarMarkdown(texto) },
     ]);
   };
 
@@ -62,16 +78,18 @@ const ChatBotAsistente = () => {
 
   // ---------- Consultas a Supabase ----------
   const productosMasVendidos = async () => {
-    // Aproxima “más vendidos” con productos con más reseñas + stock
-    const { data: resenas } = await supabase
-      .from("reseñas_productos")
-      .select("producto_id");
+    // "Más vendido" = más unidades compradas según pedidos reales
+    const { data: pedidos, error } = await supabase
+      .from("pedidos")
+      .select("id_producto, cantidad");
 
     const conteo = {};
-    (resenas || []).forEach((r) => {
-      if (!r.producto_id) return;
-      conteo[r.producto_id] = (conteo[r.producto_id] || 0) + 1;
-    });
+    if (!error) {
+      (pedidos || []).forEach((p) => {
+        if (!p.id_producto) return;
+        conteo[p.id_producto] = (conteo[p.id_producto] || 0) + (Number(p.cantidad) || 0);
+      });
+    }
 
     const idsOrdenados = Object.entries(conteo)
       .sort((a, b) => b[1] - a[1])
@@ -79,7 +97,7 @@ const ChatBotAsistente = () => {
       .map(([id]) => id);
 
     if (idsOrdenados.length === 0) {
-      // Fallback: últimos productos con stock
+      // Fallback: últimos productos con stock (aún no hay pedidos registrados)
       const { data } = await supabase
         .from("productos")
         .select("nombre_producto, precio_venta, stock, tiendas(nombre_tienda)")
@@ -90,7 +108,7 @@ const ChatBotAsistente = () => {
       if (!data?.length) return "Aún no hay suficientes datos de ventas.";
 
       return (
-        "Estos son productos destacados del catálogo:\n\n" +
+        "Todavía no hay pedidos registrados, pero estos son productos destacados del catálogo:\n\n" +
         data
           .map(
             (p, i) =>
@@ -110,12 +128,12 @@ const ChatBotAsistente = () => {
     );
 
     return (
-      "🔥 Productos más comentados / populares:\n\n" +
+      "🔥 Productos más comprados:\n\n" +
       idsOrdenados
         .map((id, i) => {
           const p = mapa[id];
           if (!p) return null;
-          return `${i + 1}. ${p.nombre_producto} — C$${Number(p.precio_venta || 0).toFixed(2)} · ${p.tiendas?.nombre_tienda || "Tienda"} · ${conteo[id]} reseñas`;
+          return `${i + 1}. ${p.nombre_producto} — C$${Number(p.precio_venta || 0).toFixed(2)} · ${p.tiendas?.nombre_tienda || "Tienda"} · ${conteo[id]} unidades vendidas`;
         })
         .filter(Boolean)
         .join("\n")
@@ -217,6 +235,58 @@ const ChatBotAsistente = () => {
     return `🏷️ Hay ${total} productos en oferta.\n\nAlgunos:\n${lista}\n\nVe al Catálogo y toca “Ver ofertas”.`;
   };
 
+  // ---------- Fallback inteligente vía Gemini (Edge Function) ----------
+  // La API key de Gemini vive solo en el servidor (secreto de la Edge
+  // Function), nunca en el bundle del cliente.
+ const preguntarIA = async (pregunta) => {
+  try {
+    const historialReciente = mensajesRef.current
+      .slice(-6)
+      .map(({ de, texto }) => ({ de, texto }));
+
+    const { data, error } = await supabase.functions.invoke("chat-assistant", {
+      body: {
+        pregunta,
+        historial: historialReciente,
+      },
+    });
+
+    // Mostrar el error completo en la consola
+    if (error) {
+      console.error("ERROR EDGE FUNCTION:", error);
+
+      // supabase.functions.invoke() no expone el JSON que devolvimos desde
+      // el servidor en `error`; hay que leerlo de error.context (la
+      // respuesta HTTP real) para obtener nuestro mensaje amigable.
+      let detalle = null;
+      try {
+        if (error?.context && typeof error.context.json === "function") {
+          detalle = await error.context.json();
+        }
+      } catch (_) {
+        // Si no se puede leer el cuerpo, seguimos con el mensaje genérico
+      }
+
+      throw new Error(
+        detalle?.error ||
+          "No pude comunicarme con el asistente. Intenta de nuevo en unos segundos."
+      );
+    }
+
+    console.log("RESPUESTA EDGE FUNCTION:", data);
+
+    if (data?.error) {
+      console.error("ERROR SERVIDOR:", data.error);
+      throw new Error(data.error);
+    }
+
+    return data.respuesta;
+  } catch (err) {
+    console.error("ERROR COMPLETO:", err);
+    return err.message || "No pude procesar tu pregunta en este momento. Intenta de nuevo en unos segundos.";
+  }
+};
+
   const responder = async (textoUsuario) => {
     const t = textoUsuario.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "");
 
@@ -276,13 +346,9 @@ const ChatBotAsistente = () => {
       );
     }
 
-    return (
-      "No estoy seguro de eso 😅\nPrueba con:\n" +
-      "• “Productos más vendidos”\n" +
-      "• “Tiendas mejor valoradas”\n" +
-      "• “¿Cómo compro?”\n" +
-      "• “Ver ofertas”"
-    );
+    // Cualquier otra pregunta: la responde Gemini con contexto real
+    // de la plataforma, en vez de un mensaje fijo de "no entendí".
+    return await preguntarIA(textoUsuario);
   };
 
   const enviar = async (textoLibre) => {
