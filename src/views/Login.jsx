@@ -7,6 +7,107 @@ import { asegurarPerfil, asegurarUsuario } from "../services/perfilService";
 import logoCompleto from "../assets/LogoCom1.png";
 import "../App.css";
 
+
+const MobileLoginView = ({
+  usuario,
+  contraseña,
+  error,
+  setUsuario,
+  setContraseña,
+  iniciarSesion,
+  iniciarSesionConGoogle,
+  iniciarSesionConApple,
+  cargando,
+  navegar,
+}) => (
+  <div className="login-mobile-view">
+    <div className="login-mobile-header">
+      <img src={logoCompleto} alt="InterMarket" className="login-mobile-logo" />
+      <span className="login-mobile-subtitle">Conecta, Intercambia, crece</span>
+    </div>
+
+    <div className="login-mobile-panel">
+      <h1 className="login-mobile-title">Inicia sesión</h1>
+      <p className="login-mobile-description">Ingresa tus datos para continuar en InterMarket.</p>
+
+      <FormularioLogin
+        usuario={usuario}
+        contraseña={contraseña}
+        error={error}
+        setUsuario={setUsuario}
+        setContraseña={setContraseña}
+        iniciarSesion={iniciarSesion}
+        iniciarSesionConGoogle={iniciarSesionConGoogle}
+        iniciarSesionConApple={iniciarSesionConApple}
+        cargando={cargando}
+      />
+
+      <div className="login-mobile-footer">
+        <span>¿No tienes cuenta? </span>
+        <button type="button" className="login-mobile-link" onClick={() => navegar("/registro")}>
+          Regístrate gratis
+        </button>
+      </div>
+    </div>
+  </div>
+);
+
+const DesktopLoginView = ({
+  usuario,
+  contraseña,
+  error,
+  setUsuario,
+  setContraseña,
+  iniciarSesion,
+  iniciarSesionConGoogle,
+  iniciarSesionConApple,
+  cargando,
+  navegar,
+}) => (
+  <div className="login-desktop-view">
+    <div className="login-desktop-hero">
+      <div className="login-desktop-blob login-desktop-blob-a" aria-hidden="true" />
+      <div className="login-desktop-blob login-desktop-blob-b" aria-hidden="true" />
+      <div className="login-desktop-brand">
+        <img src={logoCompleto} alt="InterMarket" className="login-desktop-logo" />
+        <p className="login-desktop-tagline">Conecta, Intercambia, Crece</p>
+      </div>
+    </div>
+
+    <div className="login-desktop-panel">
+      <div className="auth-card">
+        <h1 className="auth-card-title">Iniciar Sesión</h1>
+        <p className="auth-card-subtitle">Ingresa tus datos para continuar en InterMarket.</p>
+
+        <FormularioLogin
+          usuario={usuario}
+          contraseña={contraseña}
+          error={error}
+          setUsuario={setUsuario}
+          setContraseña={setContraseña}
+          iniciarSesion={iniciarSesion}
+          iniciarSesionConGoogle={iniciarSesionConGoogle}
+          iniciarSesionConApple={iniciarSesionConApple}
+          cargando={cargando}
+        />
+
+        <div className="auth-sheet-footer">
+          <small>
+            ¿No tienes cuenta?{" "}
+            <span className="auth-sheet-link" onClick={() => navegar("/registro")}>
+              Regístrate gratis
+            </span>
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+// ============================================================
+// COMPONENTE PRINCIPAL
+// ============================================================
+
 function Login() {
   const [usuario, setUsuario] = useState("");
   const [contraseña, setContraseña] = useState("");
@@ -19,7 +120,7 @@ function Login() {
     try {
       setCargando(true);
       setError(null);
-      
+
       const { data, error: authError } = await supabase.auth.signInWithPassword({
         email: usuario,
         password: contraseña,
@@ -42,7 +143,7 @@ function Login() {
       }
 
       localStorage.removeItem("rol-activo");
-      
+
     } catch (err) {
       console.error("Error en iniciarSesion:", err);
       setError("Error de conexión con el servidor. Intenta de nuevo.");
@@ -56,10 +157,10 @@ function Login() {
       setCargando(true);
       setError(null);
       localStorage.removeItem("rol-activo");
-      
+
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
-        options: { 
+        options: {
           redirectTo: window.location.origin,
           queryParams: {
             access_type: 'offline',
@@ -67,7 +168,7 @@ function Login() {
           }
         }
       });
-      
+
       if (error) {
         console.error("Error de Google:", error);
         if (error.message.includes("provider is not enabled")) {
@@ -89,14 +190,14 @@ function Login() {
       setCargando(true);
       setError(null);
       localStorage.removeItem("rol-activo");
-      
+
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'apple',
-        options: { 
+        options: {
           redirectTo: window.location.origin,
         }
       });
-      
+
       if (error) {
         console.error("Error de Apple:", error);
         if (error.message.includes("provider is not enabled")) {
@@ -125,7 +226,7 @@ function Login() {
           setError("Error al completar el perfil. Intenta de nuevo.");
           return;
         }
-        
+
         if (role === 'admin') {
           navegar("/admin-inicio", { replace: true });
         } else {
@@ -150,7 +251,7 @@ function Login() {
           setError("Error al completar el perfil. Intenta de nuevo.");
           return;
         }
-        
+
         if (role === 'admin') {
           navegar("/admin-inicio", { replace: true });
         } else {
@@ -162,84 +263,32 @@ function Login() {
     checkOAuthSession();
   }, [loading, role, navegar]);
 
-  const MobileLoginView = () => (
-    <div className="login-mobile-view">
-      <div className="login-mobile-header">
-        <img src={logoCompleto} alt="InterMarket" className="login-mobile-logo" />
-        <span className="login-mobile-subtitle">Conecta, Intercambia, crece</span>
-      </div>
-
-      <div className="login-mobile-panel">
-        <h1 className="login-mobile-title">Inicia sesión</h1>
-        <p className="login-mobile-description">Ingresa tus datos para continuar en InterMarket.</p>
-
-        <FormularioLogin
-          usuario={usuario}
-          contraseña={contraseña}
-          error={error}
-          setUsuario={setUsuario}
-          setContraseña={setContraseña}
-          iniciarSesion={iniciarSesion}
-          iniciarSesionConGoogle={iniciarSesionConGoogle}
-          iniciarSesionConApple={iniciarSesionConApple}
-          cargando={cargando}
-        />
-
-        <div className="login-mobile-footer">
-          <span>¿No tienes cuenta? </span>
-          <button type="button" className="login-mobile-link" onClick={() => navegar("/registro")}>
-            Regístrate gratis
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-
-  const DesktopLoginView = () => (
-    <div className="login-desktop-view">
-      <div className="login-desktop-hero">
-        <div className="login-desktop-blob login-desktop-blob-a" aria-hidden="true" />
-        <div className="login-desktop-blob login-desktop-blob-b" aria-hidden="true" />
-        <div className="login-desktop-brand">
-          <img src={logoCompleto} alt="InterMarket" className="login-desktop-logo" />
-          <p className="login-desktop-tagline">Conecta, Intercambia, Crece</p>
-        </div>
-      </div>
-
-      <div className="login-desktop-panel">
-        <div className="auth-card">
-          <h1 className="auth-card-title">Iniciar Sesión</h1>
-          <p className="auth-card-subtitle">Ingresa tus datos para continuar en InterMarket.</p>
-
-          <FormularioLogin
-            usuario={usuario}
-            contraseña={contraseña}
-            error={error}
-            setUsuario={setUsuario}
-            setContraseña={setContraseña}
-            iniciarSesion={iniciarSesion}
-            iniciarSesionConGoogle={iniciarSesionConGoogle}
-            iniciarSesionConApple={iniciarSesionConApple}
-            cargando={cargando}
-          />
-
-          <div className="auth-sheet-footer">
-            <small>
-              ¿No tienes cuenta?{" "}
-              <span className="auth-sheet-link" onClick={() => navegar("/registro")}>
-                Regístrate gratis
-              </span>
-            </small>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-
   return (
     <div className="auth-page">
-      <MobileLoginView />
-      <DesktopLoginView />
+      <MobileLoginView
+        usuario={usuario}
+        contraseña={contraseña}
+        error={error}
+        setUsuario={setUsuario}
+        setContraseña={setContraseña}
+        iniciarSesion={iniciarSesion}
+        iniciarSesionConGoogle={iniciarSesionConGoogle}
+        iniciarSesionConApple={iniciarSesionConApple}
+        cargando={cargando}
+        navegar={navegar}
+      />
+      <DesktopLoginView
+        usuario={usuario}
+        contraseña={contraseña}
+        error={error}
+        setUsuario={setUsuario}
+        setContraseña={setContraseña}
+        iniciarSesion={iniciarSesion}
+        iniciarSesionConGoogle={iniciarSesionConGoogle}
+        iniciarSesionConApple={iniciarSesionConApple}
+        cargando={cargando}
+        navegar={navegar}
+      />
     </div>
   );
 }
