@@ -5,6 +5,7 @@ import { Modal, Spinner } from "react-bootstrap";
 import { useAuth } from "../context/AuthContext";
 import { supabase } from "../database/supabaseconfig";
 import { asegurarPerfil } from "../services/perfilService";
+import { LISTA_PLANES } from "../utils/planes";
 
 const sufijoDuracion = (duracion) => {
   switch (duracion) {
@@ -155,78 +156,8 @@ const Suscripcion = () => {
     verificarSuscripcion();
   }, [user, navigate]);
 
-  // Planes con sus límites
-  const planes = [
-    {
-      id: "plan_gratuito",
-      nombre: "Prueba Gratuita",
-      precio: 0,
-      duracion: "14 días",
-      tipo: "prueba",
-      limite_tiendas: 2,
-      limite_productos: 20,
-      caracteristicas: [
-        "Hasta 2 tiendas",
-        "Hasta 20 productos por tienda",
-        "Prueba gratuita por 14 días",
-        "Panel de vendedor"
-      ],
-      popular: false,
-      esGratuito: true,
-      color: "#8B5CF6"
-    },
-    {
-      id: "plan_bronce",
-      nombre: "Plan Bronce",
-      precio: 9.99,
-      duracion: "Mensual",
-      tipo: "paga",
-      limite_tiendas: 3,
-      limite_productos: 50,
-      caracteristicas: [
-        "Hasta 3 tiendas",
-        "Hasta 50 productos por tienda",
-        "Soporte por email",
-        "Estadísticas básicas",
-        "Panel de vendedor"
-      ],
-      popular: false
-    },
-    {
-      id: "plan_plata",
-      nombre: "Plan Plata",
-      precio: 24.99,
-      duracion: "Trimestral",
-      tipo: "paga",
-      limite_tiendas: 5,
-      limite_productos: 200,
-      caracteristicas: [
-        "Hasta 5 tiendas",
-        "Hasta 200 productos por tienda",
-        "Soporte prioritario",
-        "Estadísticas avanzadas",
-        "Destacados en catálogo"
-      ],
-      popular: true
-    },
-    {
-      id: "plan_oro",
-      nombre: "Plan Oro",
-      precio: 79.99,
-      duracion: "Anual",
-      tipo: "paga",
-      limite_tiendas: 10,
-      limite_productos: 9999,
-      caracteristicas: [
-        "Hasta 10 tiendas",
-        "Productos ilimitados",
-        "Soporte 24/7",
-        "Asesoría de marketing",
-        "Cero comisiones por venta"
-      ],
-      popular: false
-    }
-  ];
+  // Planes centralizados
+  const planes = LISTA_PLANES;
 
   const [planSeleccionado, setPlanSeleccionado] = useState(
     () => planes.find((plan) => plan.id === "plan_gratuito") || planes[0]
@@ -584,9 +515,17 @@ const Suscripcion = () => {
                     </span>
                   </div>
 
-                  <p className="susc-plan-desc">
-                    {plan.caracteristicas.slice(0, 2).join(", ")}
-                  </p>
+                  {/* ============================================
+                      LISTA COMPLETA DE BENEFICIOS
+                  ============================================ */}
+                  <ul className="susc-plan-beneficios">
+                    {plan.caracteristicas.map((beneficio, idx) => (
+                      <li key={idx}>
+                        <i className="bi bi-check-circle-fill" />
+                        <span>{beneficio}</span>
+                      </li>
+                    ))}
+                  </ul>
 
                   <span className="susc-plan-check" aria-hidden="true">
                     <i className="bi bi-check-lg" />

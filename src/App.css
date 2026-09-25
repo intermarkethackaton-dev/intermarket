@@ -15931,3 +15931,700 @@ body {
 .se-transcurrido i {
   color: var(--color-primario);
 }
+
+/* ============================================================
+   SUSCRIPCIÓN - AJUSTES FINALES
+   Checks teal, precio más chico con sufijo en esquina, y
+   responsive móvil sin romper el diseño original.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. CHECKS DE LOS BENEFICIOS EN TEAL (#1A7386)
+   ------------------------------------------------------------ */
+.susc-plan-beneficios li i,
+.susc-plan-desc i,
+.susc-plan-card .bi-check-circle-fill,
+.susc-plan-card .bi-check-circle {
+  color: #1A7386 !important;
+}
+
+/* ------------------------------------------------------------
+   2. PRECIO MÁS CHICO + SUFIJO EN ESQUINA DERECHA
+   ------------------------------------------------------------ */
+.susc-plan-precio {
+  position: relative !important;
+  font-size: 1.05rem !important;
+  font-weight: 800 !important;
+  line-height: 1.1 !important;
+  padding-right: 0 !important;
+  display: inline-flex !important;
+  align-items: flex-start !important;
+  gap: 6px !important;
+}
+
+.susc-plan-precio small {
+  position: relative !important;
+  top: -2px !important;
+  font-size: 0.7rem !important;
+  font-weight: 500 !important;
+  color: rgba(16, 69, 79, 0.6) !important;
+  margin-left: 4px !important;
+  white-space: nowrap !important;
+}
+
+/* ------------------------------------------------------------
+   3. RESPONSIVE MÓVIL - ARREGLO REAL
+   En móvil: 1 card por fila, con espacio para respirar.
+   En tablet: 2 por fila.
+   En desktop: tu diseño original (fila de 4).
+   ------------------------------------------------------------ */
+@media (max-width: 767.98px) {
+  /* La página en móvil debe poder hacer scroll */
+  .susc-page {
+    min-height: 100dvh !important;
+    height: auto !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    padding: 24px 14px 40px !important;
+    align-items: flex-start !important;
+    position: relative !important;
+  }
+
+  /* El wrapper deja de estar centrado forzado */
+  .susc-wrapper {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 auto !important;
+    height: auto !important;
+    overflow: visible !important;
+    justify-content: flex-start !important;
+  }
+
+  /* El header se ve bien */
+  .susc-header {
+    margin-bottom: 22px !important;
+    padding: 0 8px !important;
+  }
+
+  .susc-title {
+    font-size: 1.7rem !important;
+    line-height: 1.15 !important;
+  }
+
+  .susc-subtitle {
+    font-size: 0.88rem !important;
+  }
+
+  /* Las cards se apilan verticalmente con buen espacio */
+  .susc-planes {
+    flex-direction: column !important;
+    gap: 14px !important;
+    margin-bottom: 22px !important;
+    padding: 0 !important;
+  }
+
+  /* Cada card con su padding original, no aplastada */
+  .susc-plan-card {
+    width: 100% !important;
+    min-height: auto !important;
+    padding: 1.15rem 1.25rem 1.5rem !important;
+    border-radius: 20px !important;
+    flex: none !important;
+  }
+
+  /* El top (nombre + precio) se ve bien en móvil */
+  .susc-plan-top {
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+  }
+
+  .susc-plan-nombre {
+    font-size: 1rem !important;
+  }
+
+  .susc-plan-precio {
+    font-size: 1.05rem !important;
+    text-align: right !important;
+    flex-shrink: 0 !important;
+  }
+
+  .susc-plan-precio small {
+    font-size: 0.68rem !important;
+  }
+
+  /* Lista de beneficios bien legible */
+  .susc-plan-beneficios {
+    margin-top: 10px !important;
+    gap: 6px !important;
+  }
+
+  .susc-plan-beneficios li {
+    font-size: 0.82rem !important;
+    line-height: 1.4 !important;
+  }
+
+  /* Los botones uno debajo del otro en móvil */
+  .susc-actions {
+    flex-direction: column !important;
+    gap: 10px !important;
+    padding: 0 !important;
+    margin-top: 8px !important;
+  }
+
+  .susc-btn,
+  .susc-btn-primary,
+  .susc-btn-secondary {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+}
+
+/* ------------------------------------------------------------
+   4. TABLET (entre 768 y 1023): 2 cards por fila
+   ------------------------------------------------------------ */
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .susc-planes {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
+    flex-direction: unset !important;
+  }
+
+  .susc-plan-card {
+    flex: none !important;
+  }
+}
+
+/* ------------------------------------------------------------
+   5. DESKTOP (1024+): 4 cards en fila (tu diseño original)
+   ------------------------------------------------------------ */
+@media (min-width: 1024px) {
+  .susc-planes {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 1.25rem !important;
+    flex-wrap: nowrap !important;
+  }
+
+  .susc-plan-card {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+  }
+}
+
+/* ------------------------------------------------------------
+   6. PANTALLAS MUY PEQUEÑAS (<= 380px)
+   ------------------------------------------------------------ */
+@media (max-width: 380px) {
+  .susc-title {
+    font-size: 1.45rem !important;
+  }
+
+  .susc-plan-nombre {
+    font-size: 0.92rem !important;
+  }
+
+  .susc-plan-precio {
+    font-size: 0.95rem !important;
+  }
+
+  .susc-plan-beneficios li {
+    font-size: 0.78rem !important;
+  }
+}
+
+/* ============================================================
+   AJUSTES EXTRA - Quitar bullets + Fondo blanco superior
+   ============================================================ */
+
+/* 1. Quitar bullets de la lista de beneficios */
+.susc-plan-beneficios,
+.susc-plan-beneficios li {
+  list-style: none !important;
+  list-style-type: none !important;
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+}
+
+.susc-plan-beneficios li::before,
+.susc-plan-beneficios li::marker {
+  display: none !important;
+  content: none !important;
+}
+
+/* 2. Cubrir el fondo blanco que asoma arriba */
+.susc-page {
+  margin-top: 0 !important;
+}
+
+.susc-page::before {
+  content: "";
+  position: absolute;
+  top: -120px;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(
+    135deg,
+    #F8D6D6 0%,
+    #EEDCE6 35%,
+    #D3E9F1 65%,
+    #A9EEFF 100%
+  );
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* ============================================================
+   AJUSTES FINOS - Precio en línea + Checks con respiración
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. PRECIO Y SUFIJO EN LA MISMA LÍNEA, ARRIBA A LA DERECHA
+   ------------------------------------------------------------ */
+
+/* El top (nombre + precio) usamos flex para separar nombre a la izq y precio a la der */
+.susc-plan-top {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  position: relative !important;
+  padding-right: 0 !important;
+}
+
+/* El precio (con su sufijo al lado) se va a la derecha */
+.susc-plan-precio {
+  position: static !important;
+  display: inline-flex !important;
+  flex-direction: row !important;
+  align-items: baseline !important;
+  gap: 4px !important;
+  font-size: 1.05rem !important;
+  font-weight: 800 !important;
+  line-height: 1.1 !important;
+  white-space: nowrap !important;
+  text-align: right !important;
+  flex-shrink: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* El sufijo (/mes, /trimestre, /año, "por 14 días") al lado del precio, no debajo */
+.susc-plan-precio small {
+  display: inline !important;
+  position: static !important;
+  top: auto !important;
+  font-size: 0.68rem !important;
+  font-weight: 500 !important;
+  color: rgba(16, 69, 79, 0.6) !important;
+  margin-left: 2px !important;
+  white-space: nowrap !important;
+  line-height: 1 !important;
+}
+
+/* ------------------------------------------------------------
+   2. CHECKS CON MÁS ESPACIO RESPECTO AL TEXTO
+   ------------------------------------------------------------ */
+
+.susc-plan-beneficios li {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 10px !important; /* antes 7px → ahora 10px para que respire */
+  font-size: 0.78rem !important;
+  line-height: 1.4 !important;
+  color: #475569 !important;
+  font-weight: 500 !important;
+}
+
+.susc-plan-beneficios li i {
+  color: #1A7386 !important;
+  font-size: 0.72rem !important;
+  margin-top: 3px !important;
+  flex-shrink: 0 !important;
+}
+
+/* ------------------------------------------------------------
+   3. RESPONSIVE MÓVIL - Precio y nombre en la misma fila
+   ------------------------------------------------------------ */
+
+@media (max-width: 767.98px) {
+  /* El top sigue en fila (nombre izq, precio der) */
+  .susc-plan-top {
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+  }
+
+  .susc-plan-nombre {
+    font-size: 1rem !important;
+    flex-shrink: 1 !important;
+    min-width: 0 !important;
+  }
+
+  .susc-plan-precio {
+    font-size: 1rem !important;
+    gap: 3px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .susc-plan-precio small {
+    font-size: 0.65rem !important;
+  }
+
+  /* Beneficios: gap un poco más apretado en móvil por espacio */
+  .susc-plan-beneficios li {
+    gap: 9px !important;
+    font-size: 0.82rem !important;
+    line-height: 1.4 !important;
+  }
+
+  .susc-plan-beneficios li i {
+    font-size: 0.75rem !important;
+  }
+}
+
+/* ------------------------------------------------------------
+   4. TABLET - 2 cards por fila, precio en línea
+   ------------------------------------------------------------ */
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .susc-plan-top {
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+  }
+
+  .susc-plan-precio {
+    font-size: 1rem !important;
+  }
+
+  .susc-plan-precio small {
+    font-size: 0.65rem !important;
+  }
+}
+
+/* ------------------------------------------------------------
+   5. PANTALLAS MUY CHICAS
+   ------------------------------------------------------------ */
+@media (max-width: 380px) {
+  .susc-plan-nombre {
+    font-size: 0.92rem !important;
+  }
+
+  .susc-plan-precio {
+    font-size: 0.92rem !important;
+  }
+
+  .susc-plan-precio small {
+    font-size: 0.6rem !important;
+  }
+
+  .susc-plan-beneficios li {
+    gap: 8px !important;
+    font-size: 0.78rem !important;
+  }
+}
+
+/* ============================================================
+   AJUSTES FINALES 2 - Subir más el contenedor + cards más anchas
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. SUBIR MÁS EL CONTENEDOR PARA TAPAR MÁS EL FONDO BLANCO
+   ------------------------------------------------------------ */
+
+/* Reducir aún más el padding superior del wrapper */
+.susc-wrapper {
+  padding-top: 0.5rem !important;
+}
+
+/* El header sube un poquito más */
+.susc-header {
+  margin-top: 0 !important;
+  margin-bottom: 22px !important;
+}
+
+/* ------------------------------------------------------------
+   2. TAPAR MÁS FONDO BLANCO CON EL PSEUDO-ELEMENTO
+      Más alto y más ancho para cubrir todo el borde superior
+   ------------------------------------------------------------ */
+
+.susc-page {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+.susc-page::before {
+  content: "";
+  position: absolute;
+  top: -400px;
+  left: 0;
+  right: 0;
+  height: 400px;
+  background: linear-gradient(
+    135deg,
+    #F8D6D6 0%,
+    #EEDCE6 35%,
+    #D3E9F1 65%,
+    #A9EEFF 100%
+  );
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------
+   3. CARDS UN POCO MÁS ANCHAS PARA QUE TODO QUEPA EN UNA LÍNEA
+      Solo en desktop/tablet (min-width: 768px)
+   ------------------------------------------------------------ */
+
+@media (min-width: 768px) {
+  /* El wrapper se ensancha un poco más */
+  .susc-wrapper {
+    max-width: 1100px !important;
+  }
+
+  /* El gap entre cards se reduce un poquito para dar más espacio a cada una */
+  .susc-planes {
+    gap: 1rem !important;
+  }
+
+  /* El nombre del plan en desktop cabe completo en una línea */
+  .susc-plan-nombre {
+    font-size: 1.02rem !important;
+    max-width: none !important;
+    white-space: nowrap !important;
+    font-weight: 800 !important;
+  }
+
+  /* El precio y su sufijo en la misma línea */
+  .susc-plan-precio {
+    font-size: 1.05rem !important;
+    white-space: nowrap !important;
+  }
+
+  .susc-plan-precio small {
+    font-size: 0.68rem !important;
+    margin-left: 3px !important;
+  }
+
+  /* En pantallas grandes, mejor separación entre nombre y precio */
+  .susc-plan-top {
+    gap: 12px !important;
+    align-items: center !important;
+  }
+}
+
+/* ------------------------------------------------------------
+   4. EN PANTALLAS GRANDES (>= 1200px) UN POCO MÁS DE ESPACIO
+   ------------------------------------------------------------ */
+
+@media (min-width: 1200px) {
+  .susc-wrapper {
+    max-width: 1180px !important;
+  }
+}
+
+/* ------------------------------------------------------------
+   5. RESPONSIVE MÓVIL - Mantener lo que ya funciona
+   ------------------------------------------------------------ */
+
+@media (max-width: 767.98px) {
+  .susc-wrapper {
+    padding-top: 0.25rem !important;
+  }
+
+  .susc-header {
+    margin-bottom: 18px !important;
+  }
+
+  /* En móvil SÍ permitimos que el nombre baje de línea si es necesario */
+  .susc-plan-nombre {
+    max-width: 60% !important;
+    white-space: normal !important;
+    font-size: 0.95rem !important;
+  }
+
+  .susc-page::before {
+    top: -250px;
+    height: 250px;
+  }
+}
+
+@media (max-width: 380px) {
+  .susc-plan-nombre {
+    max-width: 58% !important;
+    font-size: 0.88rem !important;
+  }
+}
+
+/* ============================================================
+   AJUSTES FINALES 3 - Beneficios más grandes, más margen
+   entre top y beneficios, y subir contenedor
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. BENEFICIOS UN POQUITO MÁS GRANDES + MÁS ESPACIO ENTRE ELLOS
+   ------------------------------------------------------------ */
+
+.susc-plan-beneficios {
+  margin-top: 14px !important;
+  gap: 8px !important;
+}
+
+.susc-plan-beneficios li {
+  font-size: 0.90rem !important;
+  line-height: 1.45 !important;
+  gap: 10px !important;
+}
+
+.susc-plan-beneficios li i {
+  font-size: 0.80rem !important;
+  margin-top: 3px !important;
+}
+
+/* ------------------------------------------------------------
+   2. MÁS MARGEN ENTRE EL TOP (nombre + precio) Y LOS BENEFICIOS
+      Aplicado al top para que respire
+   ------------------------------------------------------------ */
+
+.susc-plan-top {
+  margin-bottom: 2px !important;
+  padding-bottom: 3px !important;
+}
+
+/* ------------------------------------------------------------
+   3. SUBIR AÚN MÁS EL CONTENEDOR PARA TAPAR EL FONDO BLANCO
+      Forzamos que el contenido suba lo más posible
+   ------------------------------------------------------------ */
+
+.susc-page {
+  padding-top: 0 !important;
+  padding-bottom: 60px !important;
+  margin-top: 0 !important;
+  min-height: 100vh !important;
+  display: flex !important;
+  align-items: flex-start !important;
+  justify-content: center !important;
+}
+
+.susc-wrapper {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+.susc-header {
+  margin-top: 0 !important;
+  margin-bottom: 22px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* El título tampoco tiene margen arriba */
+.susc-title {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* ------------------------------------------------------------
+   4. TAPAR EL FONDO BLANCO CON UN ::before MÁS ALTO Y ANCHO
+      Ahora cubre 2000px por arriba para garantizar que tape
+      todo el borde blanco en cualquier pantalla
+   ------------------------------------------------------------ */
+
+.susc-page::before {
+  content: "" !important;
+  position: absolute !important;
+  top: -2000px !important;
+  left: -40px !important;
+  right: -40px !important;
+  height: 2000px !important;
+  width: calc(100% + 80px) !important;
+  background: linear-gradient(
+    135deg,
+    #F8D6D6 0%,
+    #EEDCE6 35%,
+    #D3E9F1 65%,
+    #A9EEFF 100%
+  ) !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+}
+
+/* ------------------------------------------------------------
+   5. RESPONSIVE MÓVIL
+   ------------------------------------------------------------ */
+
+@media (max-width: 767.98px) {
+  .susc-page {
+    padding-top: 0 !important;
+    padding-bottom: 40px !important;
+  }
+
+  .susc-header {
+    margin-bottom: 18px !important;
+  }
+
+  .susc-title {
+    font-size: 1.6rem !important;
+  }
+
+  /* En móvil también cubre mucho más arriba */
+  .susc-page::before {
+    top: -1800px !important;
+    height: 1800px !important;
+    left: -40px !important;
+    right: -40px !important;
+    width: calc(100% + 80px) !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .susc-title {
+    font-size: 1.45rem !important;
+  }
+
+  .susc-page::before {
+    top: -1500px !important;
+    height: 1500px !important;
+    left: -40px !important;
+    right: -40px !important;
+    width: calc(100% + 80px) !important;
+  }
+}
+
+/* ============================================================
+   FONDO DEL BODY CUANDO SE MUESTRA LA PÁGINA DE SUSCRIPCIÓN
+   Pinta el body completo con el gradiente de suscripción
+   para que no se vea el color crema de fondo
+   ============================================================ */
+
+body:has(.susc-page),
+html:has(.susc-page) {
+  background: linear-gradient(
+    135deg,
+    #F8D6D6 0%,
+    #EEDCE6 35%,
+    #D3E9F1 65%,
+    #A9EEFF 100%
+  ) !important;
+  background-attachment: fixed !important;
+  background-color: transparent !important;
+}
+
+/* Y por si acaso, cuando el navegador no soporta :has(),
+   aplicamos el gradiente al app-container cuando estamos ahí */
+body:has(.susc-page) #root,
+body:has(.susc-page) .app-container,
+body:has(.susc-page) main,
+body:has(.susc-page) .margen-superior-main {
+  background: transparent !important;
+  background-color: transparent !important;
+}
